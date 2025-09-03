@@ -5,8 +5,11 @@ trigger:
      - main
 pool: mypool1
 
-steps:
+variables: 
+  config_path: '$(Build.SourcesDirectory)/'
+  backend_svn: 'workload idy fedration-SCN'
 
+steps:
 - task: TerraformInstaller@1
   displayName: Terraform Install
   inputs:
@@ -18,8 +21,8 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(Build.SourcesDirectory)/'
-    backendServiceArm: 'workload idy fedration-SCN'
+    workingDirectory: $(config_path)
+    backendServiceArm: $(backend_svn)
     backendAzureRmResourceGroupName: 'myResourceGroup'
     backendAzureRmStorageAccountName: 'mystorage12340'
     backendAzureRmContainerName: 'radha'
@@ -30,20 +33,20 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'validate'
-    workingDirectory: '$(Build.SourcesDirectory)/'
+    workingDirectory: $(config_path)
 
 - task: TerraformTask@5
   displayName: Terraform Plan
   inputs:
     provider: 'azurerm'
     command: 'plan'
-    workingDirectory: '$(Build.SourcesDirectory)/'
-    environmentServiceNameAzureRM: 'workload idy fedration-SCN'
+    workingDirectory: $(config_path)
+    environmentServiceNameAzureRM: $(backend_svn)
 
 - task: TerraformTask@5
   inputs:
     provider: 'azurerm'
     command: 'apply'
     commandOptions: '--auto-approve'
-    environmentServiceNameAzureRM: 'workload idy fedration-SCN'
+    environmentServiceNameAzureRM: $(backend_svn)
 
