@@ -44,9 +44,11 @@ steps:
     environmentServiceNameAzureRM: $(backend_svn)
 
 - task: TerraformTask@5
+  displayName: Terraform apply
   inputs:
     provider: 'azurerm'
     command: 'apply'
     commandOptions: '--auto-approve'
+    workingDirectory: $(config_path)
     environmentServiceNameAzureRM: $(backend_svn)
 
