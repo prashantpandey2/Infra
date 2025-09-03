@@ -18,7 +18,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra'
+    workingDirectory: '$(Build.SourcesDirectory)/'
     backendServiceArm: 'workload idy fedration-SCN'
     backendAzureRmResourceGroupName: 'myResourceGroup'
     backendAzureRmStorageAccountName: 'mystorage12340'
@@ -30,14 +30,14 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'validate'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra'
+    workingDirectory: '$(Build.SourcesDirectory)/'
 
 - task: TerraformTask@5
   displayName: Terraform fmt
   inputs:
     provider: 'azurerm'
     command: 'custom'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra'
+    workingDirectory: '$(Build.SourcesDirectory)/'
     commandOptions: 'fmt'
     outputTo: 'console'
 
@@ -46,6 +46,6 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra'
+    workingDirectory: '$(Build.SourcesDirectory)/'
     environmentServiceNameAzureRM: 'workload idy fedration-SCN'
 
