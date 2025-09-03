@@ -24,7 +24,7 @@ resource "azurerm_resource_group" "RG3" {
 
 resource "azurerm_virtual_network" "vnet" {
   depends_on = [ azurerm_resource_group.RG2 ]
-  name                = "vnet1"
+  name                = "vnet12"
   location            = azurerm_resource_group.RG2.location
   resource_group_name = azurerm_resource_group.RG2.name
   address_space       = ["10.0.0.0/16"]
