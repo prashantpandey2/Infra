@@ -40,3 +40,10 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)/'
     environmentServiceNameAzureRM: 'workload idy fedration-SCN'
 
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    commandOptions: '--auto-approve'
+    environmentServiceNameAzureRM: 'workload idy fedration-SCN'
+
