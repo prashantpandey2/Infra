@@ -33,15 +33,6 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)/'
 
 - task: TerraformTask@5
-  displayName: Terraform fmt
-  inputs:
-    provider: 'azurerm'
-    command: 'custom'
-    workingDirectory: '$(Build.SourcesDirectory)/'
-    commandOptions: 'fmt'
-    outputTo: 'console'
-
-- task: TerraformTask@5
   displayName: Terraform Plan
   inputs:
     provider: 'azurerm'
