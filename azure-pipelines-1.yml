@@ -3,16 +3,18 @@ trigger:
  branches:
    include:
      - main
-pool: mypool
+pool: mypool1
 
 steps:
 
 - task: TerraformInstaller@1
+  displayName: Terraform Install
   inputs:
     terraformVersion: 'latest'
 
 
 - task: TerraformTask@5
+  displayName: Terraform init
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -24,12 +26,14 @@ steps:
     backendAzureRmKey: 'radha.tfstate'
 
 - task: TerraformTask@5
+  displayName: Terraform validate
   inputs:
     provider: 'azurerm'
     command: 'validate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/Infra'
 
 - task: TerraformTask@5
+  displayName: Terraform fmt
   inputs:
     provider: 'azurerm'
     command: 'custom'
@@ -38,6 +42,7 @@ steps:
     outputTo: 'console'
 
 - task: TerraformTask@5
+  displayName: Terraform Plan
   inputs:
     provider: 'azurerm'
     command: 'plan'
