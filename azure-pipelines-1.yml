@@ -1,0 +1,47 @@
+trigger:
+
+ branches:
+   include:
+     - main
+pool:
+  mypool1
+
+steps:
+
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: 'latest'
+
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra'
+    backendServiceArm: 'workload idy fedration-SCN'
+    backendAzureRmResourceGroupName: 'myResourceGroup'
+    backendAzureRmStorageAccountName: 'mystorage12340'
+    backendAzureRmContainerName: 'radha'
+    backendAzureRmKey: 'radha.tfstate'
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra'
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'custom'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra'
+    commandOptions: 'fmt'
+    outputTo: 'console'
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Infra'
+    environmentServiceNameAzureRM: 'workload idy fedration-SCN'
+
